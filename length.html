@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Navigasyon Tasarımı */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        /* Aktif link belirteci (opsiyonel) */
+        nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Form Elemanları */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #475569;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1.2rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Sonuç Alanı */
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 15px;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .result-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #166534;
+            margin-bottom: 4px;
+        }
+
+        .result-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #15803d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Unit Converter</h2>
+        
+        <nav>
+            <a href="/length">Length</a>
+            <a href="/weight">Weight</a>
+            <a href="/temperature">Temp</a>
+        </nav>
+
+        <form method="POST">
+            <label for="value">Value to Convert</label>
+            <input type="number" step="any" name="value" id="value" placeholder="0.00" required>
+            
+            <label for="from">From</label>
+            <select name="from" id="from">
+                {% for unit in units %}
+                <option value="{{unit}}">{{unit|capitalize}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="to">To</label>
+            <select name="to" id="to">
+                {% for unit in units %}
+                <option value="{{unit}}">{{unit|capitalize}}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Convert Now</button>
+        </form>
+
+        {% if result is not none %}
+        <div class="result-box">
+            <span class="result-label">Converted Result</span>
+            <div class="result-value">{{ result|round(4) }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
